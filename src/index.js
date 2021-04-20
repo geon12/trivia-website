@@ -19,10 +19,22 @@ function resetToken(token) {
         .then(res => res.json())
 }
 
-function getQandA(data, token) {
+function checkQandA(questions, token) {
     
     
-        console.log(data.results)
+    if (questions.response_code === 4) {
+        resetToken(token).then( () => {
+            //console.log("reset token")
+            fetchQuestions(numQuestions,token)
+                .then((resetQuestions) => {
+                    return resetQuestions.results//change this
+                })
+        })
+    }
+    else {
+        
+       return questions.results;//change this
+    }
 }
 
 //fetchToken().then(data => resetToken(data.token));
@@ -30,19 +42,7 @@ function getQandA(data, token) {
 fetchToken().then((data) => {
     fetchQuestions(numQuestions, data.token).then((questions) => {
         
-        if (questions.response_code === 4) {
-            resetToken(data.token).then( () => {
-                //console.log("reset token")
-                fetchQuestions(numQuestions,data.token)
-                    .then((resetQuestions) => {
-                        getQandA(resetQuestions,data.token)//change this
-                    })
-            })
-        }
-        else {
-            
-            getQandA(questions,data.token);//change this
-        }
+        checkQandA(questions,data.token)
 
     });
         
