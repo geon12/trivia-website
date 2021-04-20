@@ -24,8 +24,8 @@ function checkQandA(questions, token) {
     
     if (questions.response_code === 4) {
         resetToken(token).then( () => {
-            //console.log("reset token")
-            fetchQuestions(numQuestions,token)
+            
+            fetchQuestions(numQuestions,token)//change this if you add categories later
                 .then((resetQuestions) => {
                     return resetQuestions.results//change this
                 })
