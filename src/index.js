@@ -46,15 +46,6 @@ function checkQandA(questions, token) {
 
 
 
-// fetchToken().then((data) => {
-//     fetchQuestions(numQuestions, data.token).then((questions) => {
-        
-//         console.log(checkQandA(questions,data.token))
-
-//     });
-        
-// })
-
 function startPlay() {
 
     fetchToken().then((data) => {
@@ -184,6 +175,38 @@ function checkAnswer(answer,correctAnswer, answerLi) {
 
 }
 
+function appendPlayAgainDiv(div) {
+
+    questionContainer.appendChild(div)
+}
+
+function playAgainDiv() {
+    questionContainer.innerHTML = "";
+
+    const div = document.createElement("div");
+
+    const h2 = document.createElement("h2");
+    h2.textContent = `Final Score: ${score}`;
+
+    const h3 = document.createElement("h3");
+    h3.textContent = "Play Again?";
+
+    const button = document.createElement("button");
+    button.textContent = "Enter";
+    button.addEventListener('click',restartPlay);
+
+    div.appendChild(h2);
+    div.appendChild(h3);
+    div.appendChild(button);
+    return div;
+}
+
+function restartPlay() {
+    score = 0;
+    changeScore()
+    startPlay();
+}
+
 
 function nextQuestion(questions,counter) {
 
@@ -204,6 +227,9 @@ function nextQuestion(questions,counter) {
     button.addEventListener('click',    () => {
         if(counter < questions.length - 1) {
             appendQuestion(questions,counter + 1)
+        }
+        else {
+            appendPlayAgainDiv(playAgainDiv());
         }
     });
 }
