@@ -89,6 +89,7 @@ function createQuestion(questions, counter) {
     const question = questions[counter]
 
     const div = document.createElement("div");
+    div.id = "question-div"
 
     const questionNumber = document.createElement("h4")
     questionNumber.textContent = `${counter + 1} of ${questions.length}`
@@ -96,17 +97,21 @@ function createQuestion(questions, counter) {
     const h3 = document.createElement("h3");
     h3.textContent = question.category
 
-
-    const ul = document.createElement("ul")
-
     const p = document.createElement("p")
     p.innerHTML = question.question
+
+    const ul = document.createElement("ul")
+    ul.id = "answer-list"
+
     const answers = [...question.incorrect_answers]
     const insertIndex = Math.floor(Math.random() * (answers.length + 1)) 
     answers.splice( insertIndex, 0, question.correct_answer);
 
     answers.forEach((answer) => {
         const li = document.createElement("li");
+        li.addEventListener('click',() => {
+            nextQuestion(questions,counter);
+        });
         li.innerHTML = answer;
         ul.appendChild(li);
     })
@@ -122,18 +127,29 @@ function createQuestion(questions, counter) {
 
     
     
-    // const button = document.createElement("button");
-    // button.textContent = "Next Question =>"
 
-    // questionContainer.appendChild(button);
+}
+function nextQuestion(questions,counter) {
 
-    // button.addEventListener('click',    () => {
-    //     if(counter < questions.length - 1) {
-    //         createQuestion(questions,counter + 1)
-    //     }
-    // });
+    const questionDiv = document.getElementById("question-div");
+    const answerList = document.getElementById("answer-list");
 
 
+    //remove event listeners
+    const replaceAnswers = answerList.innerHTML
+    answerList.innerHTML = replaceAnswers;
+
+    
+    const button = document.createElement("button");
+    button.textContent = "Next Question =>"
+
+    questionDiv.appendChild(button);
+
+    button.addEventListener('click',    () => {
+        if(counter < questions.length - 1) {
+            appendQuestion(questions,counter + 1)
+        }
+    });
 }
 
 function appendQuestion(questions,counter) {
