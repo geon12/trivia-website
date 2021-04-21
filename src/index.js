@@ -4,6 +4,8 @@ const numQuestions = 10;
 
 const questionContainer = document.getElementById("question-container");
 
+const topScore = 0;
+
 function fetchQuestions(num,token) {
     
     return fetch(`${BASE_URL}/api.php?amount=${num}&token=${token}`)
@@ -71,6 +73,7 @@ function createStartForm() {
     inputText.type = "text"
     inputText.id = "player-name"
     inputText.required = true;
+    inputText.placeholder = "Player Name"
 
     inputSubmit.type = "submit"
     inputSubmit.value = "Enter"
@@ -81,6 +84,26 @@ function createStartForm() {
     return form;
     
 }
+
+function appendStartForm(form) {
+    const h2 = document.createElement('h2')
+    h2.innerHTML = "Enter Player Name"
+    form.addEventListener('submit',(event) => {
+        event.preventDefault();
+        const score = document.querySelector("h3#score");
+        const input = document.getElementById("player-name");
+        score.innerHTML = `${input.value}'s Top Score: 0`;
+
+        questionContainer.innerHTML = "";
+
+       
+        startPlay()
+        
+    });
+    questionContainer.appendChild(h2)
+    questionContainer.appendChild(form)
+}
+
 
 function createQuestion(questions, counter) {
 
@@ -109,10 +132,12 @@ function createQuestion(questions, counter) {
 
     answers.forEach((answer) => {
         const li = document.createElement("li");
+        li.innerHTML = answer;
         li.addEventListener('click',() => {
+            checkAnswer(answer,question.correct_answer);
             nextQuestion(questions,counter);
         });
-        li.innerHTML = answer;
+        
         ul.appendChild(li);
     })
 
@@ -127,6 +152,11 @@ function createQuestion(questions, counter) {
 
     
     
+
+}
+
+function checkAnswer(answer,corrertAnswer) {
+
 
 }
 function nextQuestion(questions,counter) {
@@ -159,26 +189,6 @@ function appendQuestion(questions,counter) {
 
 }
 
-function appendStartForm(form) {
-    const h2 = document.createElement('h2')
-    h2.innerHTML = "Enter Player Name"
-    form.addEventListener('submit',(event) => {
-        event.preventDefault();
-        const score = document.querySelector("h3#score");
-        const input = document.getElementById("player-name");
-        score.innerHTML = `${input.value}'s Top Score: 0`;
-
-        questionContainer.innerHTML = "";
-
-        //let testQuestion = {"category":"Entertainment: Books","type":"multiple","difficulty":"hard","question":"In the Beatrix Potter books, what type of animal is Tommy Brock?","correct_answer":"Badger","incorrect_answers":["Fox","Frog","Rabbit"]}
-        // let testQuestion ={"category":"Science & Nature","type":"multiple","difficulty":"easy","question":"What is the unit of electrical resistance?","correct_answer":"Ohm","incorrect_answers":["Mho","Tesla","Joule"]}
-        // createQuestion(testQuestion)
-        startPlay()
-        
-    });
-    questionContainer.appendChild(h2)
-    questionContainer.appendChild(form)
-}
 
 
 appendStartForm(createStartForm());
