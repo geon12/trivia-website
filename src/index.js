@@ -90,8 +90,8 @@ function createQuestion(questions, counter) {
 
     const div = document.createElement("div");
 
-    const questionNumber = document.createElement("h3")
-    questionNumber.textContent = `Question ${counter + 1}`
+    const questionNumber = document.createElement("h4")
+    questionNumber.textContent = `${counter + 1} of ${questions.length}`
 
     const h3 = document.createElement("h3");
     h3.textContent = question.category
@@ -111,10 +111,11 @@ function createQuestion(questions, counter) {
         ul.appendChild(li);
     })
 
-    div.appendChild(questionNumber)
+    
     div.appendChild(h3);
     div.appendChild(p);
     div.appendChild(ul);
+    div.appendChild(questionNumber)
     
     
     return div
@@ -147,7 +148,7 @@ function appendStartForm(form) {
     h2.innerHTML = "Enter Player Name"
     form.addEventListener('submit',(event) => {
         event.preventDefault();
-        const score = document.querySelector("h3");
+        const score = document.querySelector("h3#score");
         const input = document.getElementById("player-name");
         score.innerHTML = `${input.value}'s Top Score: 0`;
 
