@@ -6,6 +6,7 @@ const questionContainer = document.getElementById("question-container");
 
 let topScore = 0;
 let score = 0;
+let playerName = "";
 
 function fetchQuestions(num,token) {
     
@@ -91,10 +92,9 @@ function appendStartForm(form) {
     h2.innerHTML = "Enter Player Name"
     form.addEventListener('submit',(event) => {
         event.preventDefault();
-        const score = document.querySelector("h3#score");
         const input = document.getElementById("player-name");
-        score.innerHTML = `${input.value}'s Top Score: 0`;
-
+        playerName = input.value
+        changeScore()
         questionContainer.innerHTML = "";
 
        
@@ -103,6 +103,14 @@ function appendStartForm(form) {
     });
     questionContainer.appendChild(h2)
     questionContainer.appendChild(form)
+}
+
+function changeScore() {
+    const topScoreElement = document.querySelector("h3#top-score");
+    const currentScore = document.querySelector("h3#current-score")
+    
+    topScoreElement.innerHTML = `${playerName}'s Top Score: ${topScore}`;
+    currentScore.innerHTML = `${playerName}'s Current Score: ${score}`
 }
 
 
@@ -163,6 +171,11 @@ function checkAnswer(answer,correctAnswer, answerLi) {
         rightOrWrong.textContent = "Correct"
         ul.appendChild(rightOrWrong);
         
+        score = score + 100;
+        if (score > topScore) {
+            topScore = score;
+        }
+        changeScore();
     }
     else {
         rightOrWrong.textContent = "Wrong"
