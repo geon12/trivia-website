@@ -29,13 +29,13 @@ function checkQandA(questions, token) {
             
             fetchQuestions(numQuestions,token)//change this if you add categories later
                 .then((resetQuestions) => {
-                    createQuestion(resetQuestions.results,0)//change this
+                    appendQuestion(resetQuestions.results,0)//change this
                 })
         })
     }
     else {
         
-       createQuestion(questions.results,0);//change this
+       appendQuestion(questions.results,0);//change this
     }
 }
 
@@ -83,11 +83,19 @@ function createStartForm() {
 }
 
 function createQuestion(questions, counter) {
-    questionContainer.innerHTML = "";
+
+
+    
     const question = questions[counter]
+
+    const div = document.createElement("div");
+
+    const questionNumber = document.createElement("h3")
+    questionNumber.textContent = `Question ${counter + 1}`
 
     const h3 = document.createElement("h3");
     h3.textContent = question.category
+
 
     const ul = document.createElement("ul")
 
@@ -99,22 +107,38 @@ function createQuestion(questions, counter) {
 
     answers.forEach((answer) => {
         const li = document.createElement("li");
-        li.textContent = answer;
+        li.innerHTML = answer;
         ul.appendChild(li);
     })
 
-    const button = document.createElement("button");
-    button.textContent = "Next Question =>"
-    questionContainer.appendChild(h3);
-    questionContainer.appendChild(p);
-    questionContainer.appendChild(ul);
-    questionContainer.appendChild(button);
+    div.appendChild(questionNumber)
+    div.appendChild(h3);
+    div.appendChild(p);
+    div.appendChild(ul);
+    
+    
+    return div
 
-    button.addEventListener('click',    () => {
-        if(counter < questions.length - 1) {
-            createQuestion(questions,counter + 1)
-        }
-    });
+    
+    
+    // const button = document.createElement("button");
+    // button.textContent = "Next Question =>"
+
+    // questionContainer.appendChild(button);
+
+    // button.addEventListener('click',    () => {
+    //     if(counter < questions.length - 1) {
+    //         createQuestion(questions,counter + 1)
+    //     }
+    // });
+
+
+}
+
+function appendQuestion(questions,counter) {
+    questionContainer.innerHTML = "";
+    const questionDiv = createQuestion(questions,counter)
+    questionContainer.appendChild(questionDiv)
 
 }
 
