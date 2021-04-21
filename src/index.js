@@ -29,15 +29,17 @@ function checkQandA(questions, token) {
             
             fetchQuestions(numQuestions,token)//change this if you add categories later
                 .then((resetQuestions) => {
-                    return resetQuestions.results//change this
+                    createQuestion(resetQuestions.results,0)//change this
                 })
         })
     }
     else {
         
-       return questions.results;//change this
+       createQuestion(questions.results,0);//change this
     }
 }
+
+
 
 
 // fetchToken().then((data) => {
@@ -54,7 +56,7 @@ function startPlay() {
     fetchToken().then((data) => {
         fetchQuestions(numQuestions, data.token).then((questions) => {
             
-            console.log(checkQandA(questions,data.token))
+            checkQandA(questions,data.token)
     
         });
             
@@ -80,7 +82,9 @@ function createStartForm() {
     
 }
 
-function createQuestion(question) {
+function createQuestion(questions, counter) {
+    questionContainer.innerHTML = "";
+    const question = questions[counter]
 
     const h3 = document.createElement("h3");
     h3.textContent = question.category
@@ -88,7 +92,7 @@ function createQuestion(question) {
     const ul = document.createElement("ul")
 
     const p = document.createElement("p")
-    p.textContent = question.question
+    p.innerHTML = question.question
     const answers = [...question.incorrect_answers]
     const insertIndex = Math.floor(Math.random() * (answers.length + 1)) 
     answers.splice( insertIndex, 0, question.correct_answer);
@@ -106,6 +110,12 @@ function createQuestion(question) {
     questionContainer.appendChild(ul);
     questionContainer.appendChild(button);
 
+    button.addEventListener('click',    () => {
+        if(counter < questions.length - 1) {
+            createQuestion(questions,counter + 1)
+        }
+    });
+
 }
 
 function appendStartForm(form) {
@@ -120,9 +130,10 @@ function appendStartForm(form) {
         questionContainer.innerHTML = "";
 
         //let testQuestion = {"category":"Entertainment: Books","type":"multiple","difficulty":"hard","question":"In the Beatrix Potter books, what type of animal is Tommy Brock?","correct_answer":"Badger","incorrect_answers":["Fox","Frog","Rabbit"]}
-        let testQuestion ={"category":"Science & Nature","type":"multiple","difficulty":"easy","question":"What is the unit of electrical resistance?","correct_answer":"Ohm","incorrect_answers":["Mho","Tesla","Joule"]}
-        createQuestion(testQuestion)
-    
+        // let testQuestion ={"category":"Science & Nature","type":"multiple","difficulty":"easy","question":"What is the unit of electrical resistance?","correct_answer":"Ohm","incorrect_answers":["Mho","Tesla","Joule"]}
+        // createQuestion(testQuestion)
+        startPlay()
+        
     });
     questionContainer.appendChild(h2)
     questionContainer.appendChild(form)
