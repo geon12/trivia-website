@@ -4,7 +4,8 @@ const numQuestions = 10;
 
 const questionContainer = document.getElementById("question-container");
 
-const topScore = 0;
+let topScore = 0;
+let score = 0;
 
 function fetchQuestions(num,token) {
     
@@ -117,8 +118,8 @@ function createQuestion(questions, counter) {
     const questionNumber = document.createElement("h4")
     questionNumber.textContent = `${counter + 1} of ${questions.length}`
 
-    const h3 = document.createElement("h3");
-    h3.textContent = question.category
+    const h2 = document.createElement("h2");
+    h2.textContent = question.category
 
     const p = document.createElement("p")
     p.innerHTML = question.question
@@ -134,7 +135,7 @@ function createQuestion(questions, counter) {
         const li = document.createElement("li");
         li.innerHTML = answer;
         li.addEventListener('click',() => {
-            checkAnswer(answer,question.correct_answer);
+            checkAnswer(answer,question.correct_answer, li);
             nextQuestion(questions,counter);
         });
         
@@ -142,7 +143,7 @@ function createQuestion(questions, counter) {
     })
 
     
-    div.appendChild(h3);
+    div.appendChild(h2);
     div.appendChild(p);
     div.appendChild(ul);
     div.appendChild(questionNumber)
@@ -155,10 +156,22 @@ function createQuestion(questions, counter) {
 
 }
 
-function checkAnswer(answer,corrertAnswer) {
-
+function checkAnswer(answer,correctAnswer, answerLi) {
+    const rightOrWrong = document.createElement("h3");
+    const ul = document.querySelector("ul")
+    if(answer === correctAnswer) {
+        rightOrWrong.textContent = "Correct"
+        ul.appendChild(rightOrWrong);
+        
+    }
+    else {
+        rightOrWrong.textContent = "Wrong"
+        ul.appendChild(rightOrWrong);
+    }
 
 }
+
+
 function nextQuestion(questions,counter) {
 
     const questionDiv = document.getElementById("question-div");
