@@ -133,6 +133,7 @@ function createQuestion(questions, counter) {
     answers.forEach((answer) => {
         const li = document.createElement("li");
         li.innerHTML = answer;
+        li.classList.add("hover");
         li.addEventListener('click',() => {
             checkAnswer(answer,question.correct_answer, li);
             nextQuestion(questions,counter);
@@ -159,6 +160,9 @@ function checkAnswer(answer,correctAnswer, answerLi) {
     const rightOrWrong = document.createElement("h3");
     const h4 = document.querySelector("h4")
     const questionDiv = document.getElementById("question-div")
+    const listItems = [...document.getElementsByTagName('li')]
+    listItems.forEach((li) => li.classList.remove("hover"))
+
     if(answer === correctAnswer) {
         rightOrWrong.textContent = "Correct";
         rightOrWrong.id = "right";
