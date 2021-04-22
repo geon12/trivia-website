@@ -160,7 +160,9 @@ function checkAnswer(answer,correctAnswer, answerLi) {
     const h4 = document.querySelector("h4")
     const questionDiv = document.getElementById("question-div")
     if(answer === correctAnswer) {
-        rightOrWrong.textContent = "Correct"
+        rightOrWrong.textContent = "Correct";
+        rightOrWrong.id = "right";
+
         questionDiv.insertBefore(rightOrWrong,h4);
         
         score = score + 100;
@@ -168,13 +170,14 @@ function checkAnswer(answer,correctAnswer, answerLi) {
             topScore = score;
         }
         changeScore();
-        answerLi.id = "correct-answer"
+        answerLi.id = "correct-answer";
     }
     else {
-        rightOrWrong.textContent = "Wrong"
+        rightOrWrong.textContent = "Wrong";
+        rightOrWrong.id = "wrong";
         questionDiv.insertBefore(rightOrWrong,h4);
 
-        answerLi.id = "wrong-answer"
+        answerLi.id = "wrong-answer";
     }
 
 }

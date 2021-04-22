@@ -1,7 +1,26 @@
-.wrong-answer {
+#wrong-answer {
+    color: red;
+    border: 2px solid red;
+    display: inline;
+    padding: 5px
+}
+
+#correct-answer {
+    color: green;
+    border: 2px solid green;
+    display: inline;
+    padding: 5px;
+}
+
+#wrong {
     color: red;
 }
 
-.right-answer {
+#right {
     color: green;
 }
+
+li {
+    margin: 20px;
+}
+
