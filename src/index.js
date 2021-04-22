@@ -157,20 +157,24 @@ function createQuestion(questions, counter) {
 
 function checkAnswer(answer,correctAnswer, answerLi) {
     const rightOrWrong = document.createElement("h3");
-    const ul = document.querySelector("ul")
+    const h4 = document.querySelector("h4")
+    const questionDiv = document.getElementById("question-div")
     if(answer === correctAnswer) {
         rightOrWrong.textContent = "Correct"
-        ul.appendChild(rightOrWrong);
+        questionDiv.insertBefore(rightOrWrong,h4);
         
         score = score + 100;
         if (score > topScore) {
             topScore = score;
         }
         changeScore();
+        answerLi.id = "correct-answer"
     }
     else {
         rightOrWrong.textContent = "Wrong"
-        ul.appendChild(rightOrWrong);
+        questionDiv.insertBefore(rightOrWrong,h4);
+
+        answerLi.id = "wrong-answer"
     }
 
 }
