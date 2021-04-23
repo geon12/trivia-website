@@ -7,6 +7,7 @@ const questionContainer = document.getElementById("question-container");
 let topScore = 0;
 let score = 0;
 let playerName = "";
+let chosenCategory = "";
 
 // function fetchQuestions(num,token) {
     
@@ -47,15 +48,15 @@ function checkQandA(questions, token) {
     if (questions.response_code === 4) {
         resetToken(token).then( () => {
             
-            fetchQuestions(numQuestions,token)//change this if you add categories later
+            fetchQuestions(numQuestions,token,chosenCategory)
                 .then((resetQuestions) => {
-                    appendQuestion(resetQuestions.results,0)//change this
+                    appendQuestion(resetQuestions.results,0)
                 })
         })
     }
     else {
         
-       appendQuestion(questions.results,0);//change this
+       appendQuestion(questions.results,0);
     }
 }
 
@@ -65,7 +66,7 @@ function checkQandA(questions, token) {
 function startPlay() {
 
     fetchToken().then((data) => {
-        fetchQuestions(numQuestions, data.token).then((questions) => {
+        fetchQuestions(numQuestions, data.token,chosenCategory).then((questions) => {
             
             checkQandA(questions,data.token)
     
@@ -121,6 +122,9 @@ function appendStartForm(form) {
         const input = document.getElementById("player-name");
         playerName = input.value
         changeScore()
+
+        chosenCategory = document.getElementById("categories").value;
+
         questionContainer.innerHTML = "";
 
        
@@ -302,11 +306,6 @@ function appendQuestion(questions,counter) {
 
 function fetchCategories() {
     return fetch(`${BASE_URL}/api_category.php`)
-        .then(res => res.json());
-}
-
-function fetchQuestionBasedOnCategory(num,token,categoryId) {
-    return fetch(`${BASE_URL}/api.php?amount=${num}&token=${token}&category=${categoryId}`)
         .then(res => res.json());
 }
 
