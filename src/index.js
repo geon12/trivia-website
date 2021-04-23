@@ -161,7 +161,13 @@ function checkAnswer(answer,correctAnswer, answerLi) {
     const h4 = document.querySelector("h4")
     const questionDiv = document.getElementById("question-div")
     const listItems = [...document.getElementsByTagName('li')]
-    listItems.forEach((li) => li.classList.remove("hover"))
+    listItems.forEach((li) => {
+        li.classList.remove("hover")
+        if(answer !== correctAnswer && li.innerHTML === correctAnswer ) {
+            console.log(li.innerHTML)
+            li.id = "correct-answer";
+        }
+    })
 
     if(answer === correctAnswer) {
         rightOrWrong.textContent = "Correct";
@@ -182,6 +188,8 @@ function checkAnswer(answer,correctAnswer, answerLi) {
         questionDiv.insertBefore(rightOrWrong,h4);
 
         answerLi.id = "wrong-answer";
+
+        
     }
 
 }
@@ -199,11 +207,8 @@ function playAgainDiv() {
     const h2 = document.createElement("h2");
     h2.textContent = `Final Score: ${score}`;
 
-    const h3 = document.createElement("h3");
-    h3.textContent = "Play Again?";
-
     const button = document.createElement("button");
-    button.textContent = "Enter";
+    button.textContent = "Play Again?";
     button.addEventListener('click',restartPlay);
 
     div.appendChild(h2);
