@@ -164,7 +164,7 @@ function checkAnswer(answer,correctAnswer, answerLi) {
     listItems.forEach((li) => {
         li.classList.remove("hover")
         if(answer !== correctAnswer && li.innerHTML === correctAnswer ) {
-            console.log(li.innerHTML)
+            
             li.id = "correct-answer";
         }
     })
@@ -212,7 +212,6 @@ function playAgainDiv() {
     button.addEventListener('click',restartPlay);
 
     div.appendChild(h2);
-    div.appendChild(h3);
     div.appendChild(button);
     return div;
 }
