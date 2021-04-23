@@ -135,7 +135,7 @@ function createQuestion(questions, counter) {
         li.innerHTML = answer;
         li.classList.add("hover");
         li.addEventListener('click',() => {
-            checkAnswer(answer,question.correct_answer, li);
+            checkAnswer(decode(answer),decode(question.correct_answer), li);
             nextQuestion(questions,counter);
         });
         
@@ -156,11 +156,18 @@ function createQuestion(questions, counter) {
 
 }
 
+function decode(encodedHTML) {
+    const temporaryTag = document.createElement('p');
+    temporaryTag.innerHTML = encodedHTML;
+    return temporaryTag.innerHTML;
+}
+
 function checkAnswer(answer,correctAnswer, answerLi) {
     const rightOrWrong = document.createElement("h3");
     const h4 = document.querySelector("h4")
     const questionDiv = document.getElementById("question-div")
     const listItems = [...document.getElementsByTagName('li')]
+    
     listItems.forEach((li) => {
         li.classList.remove("hover")
         if(answer !== correctAnswer && li.innerHTML === correctAnswer ) {
