@@ -8,11 +8,27 @@ let topScore = 0;
 let score = 0;
 let playerName = "";
 
-function fetchQuestions(num,token) {
+// function fetchQuestions(num,token) {
     
-    return fetch(`${BASE_URL}/api.php?amount=${num}&token=${token}`)
+//     return fetch(`${BASE_URL}/api.php?amount=${num}&token=${token}`)
+//         .then(res => res.json());
+// }
+
+function fetchQuestions(num,token,categoryId) {
+    
+    if (categoryId) {
+        return fetch(`${BASE_URL}/api.php?amount=${num}&token=${token}&category=${categoryId}`)
         .then(res => res.json());
+    }
+    else {
+        
+
+        return fetch(`${BASE_URL}/api.php?amount=${num}&token=${token}`)
+            .then(res => res.json());    
+    }
 }
+
+
 
 function fetchToken() {
 
@@ -58,21 +74,40 @@ function startPlay() {
     })
 }
 
-function createStartForm() {
+function createStartForm(categories) {
     
     const form = document.createElement("form");
     const inputText = document.createElement("input");
+    const inputDropDown = document.createElement("select");
     const inputSubmit = document.createElement("input");
+
     inputText.type = "text"
     inputText.id = "player-name"
     inputText.required = true;
     inputText.placeholder = "Player Name"
 
-    inputSubmit.type = "submit"
-    inputSubmit.value = "Enter"
+    inputDropDown.type ="select";
+    inputDropDown.id = "categories";
 
-    form.appendChild(inputText)
-    form.appendChild(inputSubmit)
+    const defaultOption = document.createElement("option");
+    defaultOption.innerHTML = "All Categories";
+    defaultOption.value = "";
+    defaultOption.selected = "selected";
+    inputDropDown.appendChild(defaultOption);
+
+    categories.forEach((category) => {
+        const option = document.createElement("option");
+        option.innerHTML = category.name;
+        option.value = category.id;
+        inputDropDown.appendChild(option)
+    })
+
+    inputSubmit.type = "submit";
+    inputSubmit.value = "Enter";
+
+    form.appendChild(inputText);
+    form.appendChild(inputDropDown);
+    form.appendChild(inputSubmit);
 
     return form;
     
@@ -265,6 +300,23 @@ function appendQuestion(questions,counter) {
 }
 
 
+function fetchCategories() {
+    return fetch(`${BASE_URL}/api_category.php`)
+        .then(res => res.json());
+}
 
-appendStartForm(createStartForm());
+function fetchQuestionBasedOnCategory(num,token,categoryId) {
+    return fetch(`${BASE_URL}/api.php?amount=${num}&token=${token}&category=${categoryId}`)
+        .then(res => res.json());
+}
+
+
+
+fetchCategories().then((categories) => appendStartForm(createStartForm(categories.trivia_categories)))
+
+// fetchToken().then((data) => {
+//     fetchQuestions(numQuestions,data.token,"").then(console.log)
+// });
+
+// appendStartForm(createStartForm());
 
