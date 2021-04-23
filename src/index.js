@@ -203,6 +203,7 @@ function playAgainDiv() {
     questionContainer.innerHTML = "";
 
     const div = document.createElement("div");
+    div.id = "play-again"
 
     const h2 = document.createElement("h2");
     h2.textContent = `Final Score: ${score}`;
