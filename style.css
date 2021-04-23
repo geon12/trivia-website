@@ -1,8 +1,21 @@
+
+
+html  {
+    background-color: #e6ffff;
+}
+
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
+#question-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 
 #question-div {
     display: flex;
@@ -52,6 +65,10 @@ h3, h4, button {
 
 li {
     margin: 20px;
+}
+
+footer { 
+    text-align: center;
 }
 
 
