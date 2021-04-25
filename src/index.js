@@ -9,11 +9,12 @@ let score = 0;
 let playerName = "";
 let chosenCategory = "";
 
-// function fetchQuestions(num,token) {
-    
-//     return fetch(`${BASE_URL}/api.php?amount=${num}&token=${token}`)
-//         .then(res => res.json());
-// }
+//Fetch functions
+
+function fetchCategories() {
+    return fetch(`${BASE_URL}/api_category.php`)
+        .then(res => res.json());
+}
 
 function fetchQuestions(num,token,categoryId) {
     
@@ -42,38 +43,6 @@ function resetToken(token) {
         .then(res => res.json())
 }
 
-function checkQandA(questions, token) {
-    
-    
-    if (questions.response_code === 4) {
-        resetToken(token).then( () => {
-            
-            fetchQuestions(numQuestions,token,chosenCategory)
-                .then((resetQuestions) => {
-                    appendQuestion(resetQuestions.results,0)
-                })
-        })
-    }
-    else {
-        
-       appendQuestion(questions.results,0);
-    }
-}
-
-
-
-
-function startPlay() {
-
-    fetchToken().then((data) => {
-        fetchQuestions(numQuestions, data.token,chosenCategory).then((questions) => {
-            
-            checkQandA(questions,data.token)
-    
-        });
-            
-    })
-}
 
 function createStartForm(categories) {
     
@@ -135,6 +104,40 @@ function appendStartForm(form) {
     questionContainer.appendChild(form)
 }
 
+
+
+function startPlay() {
+
+    fetchToken().then((data) => {
+        fetchQuestions(numQuestions, data.token,chosenCategory).then((questions) => {
+            
+            checkQandA(questions,data.token)
+    
+        });
+            
+    })
+}
+
+function checkQandA(questions, token) {
+    
+    
+    if (questions.response_code === 4) {
+        resetToken(token).then( () => {
+            
+            fetchQuestions(numQuestions,token,chosenCategory)
+                .then((resetQuestions) => {
+                    appendQuestion(resetQuestions.results,0)
+                })
+        })
+    }
+    else {
+        
+       appendQuestion(questions.results,0);
+    }
+}
+
+
+
 function changeScore() {
     const topScoreElement = document.querySelector("h3#top-score");
     const currentScore = document.querySelector("h3#current-score")
@@ -194,6 +197,40 @@ function createQuestion(questions, counter) {
     
 
 }
+
+function nextQuestion(questions,counter) {
+
+    const questionDiv = document.getElementById("question-div");
+    const answerList = document.getElementById("answer-list");
+
+
+    //remove event listeners
+    const replaceAnswers = answerList.innerHTML
+    answerList.innerHTML = replaceAnswers;
+
+    
+    const button = document.createElement("button");
+    button.textContent = "Next Question =>"
+
+    questionDiv.appendChild(button);
+
+    button.addEventListener('click',    () => {
+        if(counter < questions.length - 1) {
+            appendQuestion(questions,counter + 1)
+        }
+        else {
+            appendPlayAgainDiv(playAgainDiv());
+        }
+    });
+}
+
+function appendQuestion(questions,counter) {
+    questionContainer.innerHTML = "";
+    const questionDiv = createQuestion(questions,counter)
+    questionContainer.appendChild(questionDiv)
+
+}
+
 
 function decode(encodedHTML) {
     const temporaryTag = document.createElement('p');
@@ -270,52 +307,9 @@ function restartPlay() {
 }
 
 
-function nextQuestion(questions,counter) {
 
-    const questionDiv = document.getElementById("question-div");
-    const answerList = document.getElementById("answer-list");
-
-
-    //remove event listeners
-    const replaceAnswers = answerList.innerHTML
-    answerList.innerHTML = replaceAnswers;
-
-    
-    const button = document.createElement("button");
-    button.textContent = "Next Question =>"
-
-    questionDiv.appendChild(button);
-
-    button.addEventListener('click',    () => {
-        if(counter < questions.length - 1) {
-            appendQuestion(questions,counter + 1)
-        }
-        else {
-            appendPlayAgainDiv(playAgainDiv());
-        }
-    });
-}
-
-function appendQuestion(questions,counter) {
-    questionContainer.innerHTML = "";
-    const questionDiv = createQuestion(questions,counter)
-    questionContainer.appendChild(questionDiv)
-
-}
-
-
-function fetchCategories() {
-    return fetch(`${BASE_URL}/api_category.php`)
-        .then(res => res.json());
-}
 
 
 
 fetchCategories().then((categories) => appendStartForm(createStartForm(categories.trivia_categories)))
-
-// fetchToken().then((data) => {
-//     fetchQuestions(numQuestions,data.token,"").then(console.log)
-// });
-
-// appendStartForm(createStartForm());
 

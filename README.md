@@ -15,5 +15,6 @@ Stretch Goals:
 
 User can choose the number of questions
 Choose category of questions
+Put categories in alphabetical order
 Keep track of score history
 Timed mode
