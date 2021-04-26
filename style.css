@@ -101,9 +101,7 @@ a {
 
 .hover:hover {
     color: blue;
-    /* border: 2px solid blue; */
-    display: inline;
-    padding: 5px
+ 
 }
 
 h1 {

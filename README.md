@@ -18,3 +18,10 @@ Stretch Goals:
 * Put categories in alphabetical order
 * Keep track of score history
 * Timed mode
+
+* fetch categories
+* dropdown menu form
+* event listener with submit button
+* send id to fetchquestions 
+* modify chosencategory variable 
+
