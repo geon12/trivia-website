@@ -9,6 +9,7 @@ let score = 0;
 let playerName = "";
 let chosenCategory = "";
 
+
 //Fetch functions
 
 function fetchCategories() {
@@ -107,15 +108,26 @@ function appendStartForm(form) {
 
 
 function startPlay() {
-
-    fetchToken().then((data) => {
-        fetchQuestions(numQuestions, data.token,chosenCategory).then((questions) => {
+    const token = localStorage.getItem('token')
+    if (!token){
+        fetchToken().then((data) => {
+            localStorage.setItem('token', data.token);
+            console.log(data.token)
+            fetchQuestions(numQuestions, data.token,chosenCategory).then((questions) => {
+                
+                checkQandA(questions,data.token)
+        
+            });
+                
+        }) 
+    }
+    else {
+        fetchQuestions(numQuestions, token,chosenCategory).then((questions) => {
             
-            checkQandA(questions,data.token)
+            checkQandA(questions,token)
     
         });
-            
-    })
+    }
 }
 
 function checkQandA(questions, token) {
